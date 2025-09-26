@@ -1,6 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
+final _logger = Logger();
+
+// 💡main()
+// └── runApp()
+//     └── MaterialApp
+//         └── home: Scaffold
+//             ├── appBar: AppBar
+//             │     └── title: Text
+//             └── body: Center
+//                   └── child: Column
+//                         ├── Text
+//                         ├── Icon
+//                         └── ElevatedButton
+
+// 💡 Actual Hierarchy based on the code below
+// Root: MyApp (StatelessWidget)
+//   └─ MaterialApp
+//        └─ home: MyHomePage (StatefulWidget)
+//             └─ Scaffold
+//                  ├─ AppBar (with title)
+//                  ├─ Body: Center → Column → Text + Counter
+//                  └─ FloatingActionButton
+
+// 💡MaterialApp → Scaffold → AppBar & Body → Widgets inside body.
+
+// 💡 What is a StatefulWidget/StatelessWidget?
+  // StatelessWidget
+  // Does not change after it’s built.
+  // Example: A Text("Hello") — once it shows “Hello”, it always shows “Hello”.
+
+  // StatefulWidget
+  // Can change over time (it has state that can be updated).
+  // Example: A counter that increases when you press a button.
+
+// 💡Root of the App
 void main() {
+  // _logger.d("Debugging");
+
   runApp(const MyApp());
 }
 
@@ -10,6 +48,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // 💡MaterialApp
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -30,7 +69,8 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // 💡Home (ref: https://media.geeksforgeeks.org/wp-content/cdn-uploads/20200910164334/App.png)
+      home: const MyHomePage(title: 'AndroidApp'),
     );
   }
 }
@@ -63,6 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
+      print("Sample $_counter");
+      _logger.d("Debugging: $_counter");
       _counter++;
     });
   }
@@ -75,6 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    // 💡Scaffold inside MyHomePage
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
