@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 
 final _logger = Logger();
 
@@ -125,35 +126,36 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             // 👇 Add SVG here
             SvgPicture.asset(
-              'assets/icons/health.svg',
-              height: 40,
+              'assets/icons/blind.svg',
+              height: 100,
             ),
+            const Padding(padding: EdgeInsets.only(bottom: 10),),
             // Welcome
             const Text(
-              "Welcome",
+              "Project GABAY",
               style: TextStyle(
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w900,
                 color: Color(0xFF1c1c1e),
-                fontFamily: 'Montserrat'
+                fontFamily: 'Inter'
               ),
             ),
             // const Padding(padding: EdgeInsets.only(bottom: 8.0)),
             // Placeholder
             const Text(
-              "Log in to your Health Tracker account.",
+              "Welcome!",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF636366)
               ),
             ),
-            const Padding(padding: EdgeInsets.only(bottom: 16.0)),
+            const Padding(padding: EdgeInsets.only(bottom: 22.0)),
             // Username
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(
-                labelText: "Username",
+                labelText: "Email",
                 filled: true,
                 fillColor: Color.fromARGB(100, 197, 197, 197),
                 border: OutlineInputBorder(
@@ -197,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                     "Forgot Password?",
                     style: TextStyle(
                       fontSize: 14,
-                      color: Color.fromRGBO(25, 230, 128, 1),
+                      color: Color(0xff1193d4),
                     ),
                   )
                   ),
@@ -213,32 +215,66 @@ class _LoginPageState extends State<LoginPage> {
               child: ElevatedButton(
                 onPressed: _login,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 105, 251, 178), // bg-primary
+                  backgroundColor: const Color(0xff1193d4),
                   foregroundColor: Colors.black87, // text color (like text-background-dark)
                   padding: const EdgeInsets.symmetric(vertical: 16), // py-3
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12), // rounded-lg
                   ),
                   elevation: 0,
-                ).copyWith(
-                  // hover/pressed effect
-                  overlayColor: WidgetStateProperty.resolveWith((states) {
-                    if (states.contains(WidgetState.pressed)) {
-                      return const Color.fromRGBO(25, 230, 128, 0.9); // hover:bg-primary/90
-                    }
-                    return null;
-                  }),
                 ),
+                // .copyWith(
+                //   // hover/pressed effect
+                //   overlayColor: WidgetStateProperty.resolveWith((states) {
+                //     if (states.contains(WidgetState.pressed)) {
+                //       // return const Color.fromRGBO(25, 230, 128, 0.9); // hover:bg-primary/90
+                //       return const Color(0xff1193d4);
+                //     }
+                //     return null;
+                //   }),
+                // ),
                 child: const Text(
                   "LOGIN",
                   style: TextStyle(
                     fontSize: 14, // text-sm
-                    fontWeight: FontWeight.bold, // font-bold
+                    fontWeight: FontWeight.w900, // font-bold
+                    color: Color(0xFFFFFFFF),
+                    letterSpacing: 2
                   ),
                 ),
               ),
-            )
+            ),
+            // Space before register
+            const SizedBox(height: 10),
+            // Register
+            SizedBox(
+              width: double.infinity, // full width
+              child: ElevatedButton(
+                onPressed: _login,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFc8e3f0),
+                  foregroundColor: Colors.black87, // text color (like text-background-dark)
+                  padding: const EdgeInsets.symmetric(vertical: 16), // py-3
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12), // rounded-lg
+                  ),
+                  elevation: 0,
+                ),
+                child: const Text(
+                  "REGISTER",
+                  style: TextStyle(
+                    fontSize: 14, // text-sm
+                    fontWeight: FontWeight.w900, // font-bold
+                    color: Color(0xff1193d4),
+                    letterSpacing: 2
+                  ),
+                ),
+              ),
+            ),
+             // Space before Roles
+            const SizedBox(height: 10),
           ],
+          
         ),
       ),
     );

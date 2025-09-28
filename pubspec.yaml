@@ -64,6 +64,11 @@ flutter:
         - asset: assets/fonts/Montserrat-Regular.ttf
           weight: 700
 
+    - family: Inter_18pt-Regular.ttf
+      fonts:
+        - asset: assets/fonts/Inter_18pt-Regular.ttf
+          weight: 700
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
