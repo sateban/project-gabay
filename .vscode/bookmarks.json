@@ -4,7 +4,7 @@
 			"path": "lib/main.dart",
 			"bookmarks": [
 				{
-					"line": 75,
+					"line": 74,
 					"column": 50,
 					"label": ""
 				},
@@ -19,8 +19,23 @@
 					"label": ""
 				},
 				{
-					"line": 125,
+					"line": 123,
+					"column": 32,
+					"label": ""
+				},
+				{
+					"line": 200,
 					"column": 21,
+					"label": ""
+				},
+				{
+					"line": 380,
+					"column": 36,
+					"label": ""
+				},
+				{
+					"line": 384,
+					"column": 30,
 					"label": ""
 				}
 			]

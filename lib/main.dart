@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter/material.dart';
 
 final _logger = Logger();
 
@@ -29,13 +28,13 @@ final _logger = Logger();
 // 💡MaterialApp → Scaffold → AppBar & Body → Widgets inside body.
 
 // 💡 What is a StatefulWidget/StatelessWidget?
-  // StatelessWidget
-  // Does not change after it’s built.
-  // Example: A Text("Hello") — once it shows “Hello”, it always shows “Hello”.
+// StatelessWidget
+// Does not change after it’s built.
+// Example: A Text("Hello") — once it shows “Hello”, it always shows “Hello”.
 
-  // StatefulWidget
-  // Can change over time (it has state that can be updated).
-  // Example: A counter that increases when you press a button.
+// StatefulWidget
+// Can change over time (it has state that can be updated).
+// Example: A counter that increases when you press a button.
 
 // 💡Root of the App
 void main() {
@@ -91,12 +90,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  String? _selectedRole = "Visually Impaired"; // default value
 
-  void _login(){
+  void _login() {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-     if (username == "admin" && password == "1234") {
+    if (username == "admin" && password == "1234") {
       _logger.i("Login success: $username");
 
       // Navigate to MyHomePage
@@ -107,12 +107,91 @@ class _LoginPageState extends State<LoginPage> {
               const MyHomePage(title: 'Flutter Demo Home Page'),
         ),
       );
+    } else if (username.isEmpty && password.isEmpty) {
+      _logger.w("Empty credentials: $username");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter username and password")),
+      );
     } else {
       _logger.w("Login failed: $username");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Invalid username or password")),
       );
     }
+  }
+
+  Widget _buildRoleCard({required IconData icon, required String label}) {
+    final bool isSelected = _selectedRole == label;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedRole = label;
+          _logger.d("label $label");
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isSelected
+              // ? Theme.of(context).primaryColor
+              ? Color(0xFF1193d4)
+              : Colors.black.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    icon,
+                    size: 48,
+                    color: isSelected ? Colors.white : Colors.black,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    label,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: isSelected ? Colors.white : Colors.black,
+                      fontFamily: 'Inter',
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Container(
+                height: 22,
+                width: 22,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: isSelected ? Colors.white : Colors.black26,
+                    width: 2,
+                  ),
+                  color: isSelected ? Colors.white : Colors.transparent,
+                ),
+                child: isSelected
+                    ? Icon(
+                        Icons.check,
+                        size: 14,
+                        color: Theme.of(context).primaryColor,
+                      )
+                    : null,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -125,11 +204,8 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // 👇 Add SVG here
-            SvgPicture.asset(
-              'assets/icons/blind.svg',
-              height: 100,
-            ),
-            const Padding(padding: EdgeInsets.only(bottom: 10),),
+            SvgPicture.asset('assets/icons/blind.svg', height: 100),
+            const Padding(padding: EdgeInsets.only(bottom: 10)),
             // Welcome
             const Text(
               "Project GABAY",
@@ -137,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                 fontSize: 24,
                 fontWeight: FontWeight.w900,
                 color: Color(0xFF1c1c1e),
-                fontFamily: 'Inter'
+                fontFamily: 'Inter',
               ),
             ),
             // const Padding(padding: EdgeInsets.only(bottom: 8.0)),
@@ -147,7 +223,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF636366)
+                color: Color(0xFF636366),
               ),
             ),
             const Padding(padding: EdgeInsets.only(bottom: 22.0)),
@@ -160,10 +236,13 @@ class _LoginPageState extends State<LoginPage> {
                 fillColor: Color.fromARGB(100, 197, 197, 197),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
-                  borderSide: BorderSide.none
+                  borderSide: BorderSide.none,
                 ),
-                contentPadding:  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
                 ),
+              ),
             ),
             const Padding(padding: EdgeInsets.only(bottom: 14.0)),
             // Password
@@ -175,10 +254,13 @@ class _LoginPageState extends State<LoginPage> {
                 fillColor: Color.fromARGB(100, 197, 197, 197),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
-                  borderSide: BorderSide.none
+                  borderSide: BorderSide.none,
                 ),
-                contentPadding:  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
                 ),
+              ),
               obscureText: true,
             ),
             // Forgot Password
@@ -187,22 +269,21 @@ class _LoginPageState extends State<LoginPage> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {}, 
+                  onPressed: () {},
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero, // remove extra padding
-                    minimumSize: Size.zero,   // no forced button size
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap, // shrink touch area
+                    minimumSize: Size.zero, // no forced button size
+                    tapTargetSize:
+                        MaterialTapTargetSize.shrinkWrap, // shrink touch area
                     backgroundColor: Colors.transparent, // no background
-                    overlayColor: Colors.transparent, // remove ripple background
+                    overlayColor:
+                        Colors.transparent, // remove ripple background
                   ),
                   child: const Text(
                     "Forgot Password?",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xff1193d4),
-                    ),
-                  )
+                    style: TextStyle(fontSize: 14, color: Color(0xff1193d4)),
                   ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -216,7 +297,8 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: _login,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xff1193d4),
-                  foregroundColor: Colors.black87, // text color (like text-background-dark)
+                  foregroundColor:
+                      Colors.black87, // text color (like text-background-dark)
                   padding: const EdgeInsets.symmetric(vertical: 16), // py-3
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12), // rounded-lg
@@ -239,7 +321,7 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 14, // text-sm
                     fontWeight: FontWeight.w900, // font-bold
                     color: Color(0xFFFFFFFF),
-                    letterSpacing: 2
+                    letterSpacing: 2,
                   ),
                 ),
               ),
@@ -250,10 +332,11 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: double.infinity, // full width
               child: ElevatedButton(
-                onPressed: _login,
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFc8e3f0),
-                  foregroundColor: Colors.black87, // text color (like text-background-dark)
+                  foregroundColor:
+                      Colors.black87, // text color (like text-background-dark)
                   padding: const EdgeInsets.symmetric(vertical: 16), // py-3
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12), // rounded-lg
@@ -266,15 +349,50 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 14, // text-sm
                     fontWeight: FontWeight.w900, // font-bold
                     color: Color(0xff1193d4),
-                    letterSpacing: 2
+                    letterSpacing: 2,
                   ),
                 ),
               ),
             ),
-             // Space before Roles
-            const SizedBox(height: 10),
+            // RoleSelection(),
+            // Space before Roles
+            // const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 24.0,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Select Your Role",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
+                    ),
+                  ),
+                  // const SizedBox(height: 20),
+                  GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: 1,
+                    children: [
+                      _buildRoleCard(
+                        icon: Icons.accessibility_new,
+                        label: "Visually Impaired",
+                      ),
+                      _buildRoleCard(icon: Icons.group, label: "Caregiver"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
-          
         ),
       ),
     );
@@ -301,6 +419,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int _selectedIndex = 0;
 
   void _incrementCounter() {
     setState(() {
