@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 final _logger = Logger();
 
@@ -70,7 +71,176 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       // 💡Home (ref: https://media.geeksforgeeks.org/wp-content/cdn-uploads/20200910164334/App.png)
-      home: const MyHomePage(title: 'AndroidApp'),
+      // home: const MyHomePage(title: 'AndroidApp'),
+      home: const LoginPage(),
+    );
+  }
+}
+
+// 💡LoginPage
+class LoginPage extends StatefulWidget {
+  // const → makes the widget instance constant (if possible).
+  // super.key → passes the optional Key parameter to the parent StatefulWidget class, allowing Flutter to track the widget’s identity during rebuilds.
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void _login(){
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+     if (username == "admin" && password == "1234") {
+      _logger.i("Login success: $username");
+
+      // Navigate to MyHomePage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              const MyHomePage(title: 'Flutter Demo Home Page'),
+        ),
+      );
+    } else {
+      _logger.w("Login failed: $username");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Invalid username or password")),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(title: const Text("Login")),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // 👇 Add SVG here
+            SvgPicture.asset(
+              'assets/icons/health.svg',
+              height: 40,
+            ),
+            // Welcome
+            const Text(
+              "Welcome",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1c1c1e),
+                fontFamily: 'Montserrat'
+              ),
+            ),
+            // const Padding(padding: EdgeInsets.only(bottom: 8.0)),
+            // Placeholder
+            const Text(
+              "Log in to your Health Tracker account.",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF636366)
+              ),
+            ),
+            const Padding(padding: EdgeInsets.only(bottom: 16.0)),
+            // Username
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                labelText: "Username",
+                filled: true,
+                fillColor: Color.fromARGB(100, 197, 197, 197),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide.none
+                ),
+                contentPadding:  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+            ),
+            const Padding(padding: EdgeInsets.only(bottom: 14.0)),
+            // Password
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                labelText: "Password",
+                filled: true,
+                fillColor: Color.fromARGB(100, 197, 197, 197),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide.none
+                ),
+                contentPadding:  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+              obscureText: true,
+            ),
+            // Forgot Password
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {}, 
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero, // remove extra padding
+                    minimumSize: Size.zero,   // no forced button size
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap, // shrink touch area
+                    backgroundColor: Colors.transparent, // no background
+                    overlayColor: Colors.transparent, // remove ripple background
+                  ),
+                  child: const Text(
+                    "Forgot Password?",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color.fromRGBO(25, 230, 128, 1),
+                    ),
+                  )
+                  ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            // ElevatedButton(
+            //   onPressed: _login,
+            //   child: const Text("Login"),
+            // ),
+            SizedBox(
+              width: double.infinity, // full width
+              child: ElevatedButton(
+                onPressed: _login,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 105, 251, 178), // bg-primary
+                  foregroundColor: Colors.black87, // text color (like text-background-dark)
+                  padding: const EdgeInsets.symmetric(vertical: 16), // py-3
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12), // rounded-lg
+                  ),
+                  elevation: 0,
+                ).copyWith(
+                  // hover/pressed effect
+                  overlayColor: WidgetStateProperty.resolveWith((states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return const Color.fromRGBO(25, 230, 128, 0.9); // hover:bg-primary/90
+                    }
+                    return null;
+                  }),
+                ),
+                child: const Text(
+                  "LOGIN",
+                  style: TextStyle(
+                    fontSize: 14, // text-sm
+                    fontWeight: FontWeight.bold, // font-bold
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
