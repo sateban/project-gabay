@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // 💡MaterialApp
     return MaterialApp(
-      title: 'Flutter Demo',
+      // title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -104,7 +104,8 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              const MyHomePage(title: 'Flutter Demo Home Page'),
+              // const MyHomePage(title: 'Flutter Demo Home Page'),
+              const MyHomePage(),
         ),
       );
     } else if (username.isEmpty && password.isEmpty) {
@@ -137,7 +138,8 @@ class _LoginPageState extends State<LoginPage> {
           color: isSelected
               // ? Theme.of(context).primaryColor
               ? Color(0xFF1193d4)
-              : Colors.black.withOpacity(0.05),
+              // : Colors.black.withOpacity(0.05),
+              : Colors.black.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Stack(
@@ -400,7 +402,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -411,7 +413,7 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  // final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -420,6 +422,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   int _selectedIndex = 0;
+  // int _currentIndex = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -435,15 +438,23 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // Pages for each tab
-  static const List<Widget> _pages = <Widget>[
-    Center(child: Text("🏠 Home Page", style: TextStyle(fontSize: 24))),
-    Center(child: Text("📜 History Page", style: TextStyle(fontSize: 24))),
-    Center(child: Text("🔔 Alerts Page", style: TextStyle(fontSize: 24))),
-    Center(child: Text("⚙️ Settings Page", style: TextStyle(fontSize: 24))),
+  // static const List<Widget> _pages = <Widget>[
+  //   Center(child: Text("🏠 Home Page", style: TextStyle(fontSize: 24))),
+  //   Center(child: Text("📜 History Page", style: TextStyle(fontSize: 24))),
+  //   Center(child: Text("🔔 Alerts Page", style: TextStyle(fontSize: 24))),
+  //   Center(child: Text("⚙️ Settings Page", style: TextStyle(fontSize: 24))),
+  // ];
+
+  final List<Widget> _pages = [
+    HomePage(),
+    HistoryPage(),
+    AlertsPage(),
+    SettingsPage(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
+      _logger.d("_selectedIndex: $_selectedIndex");
       _selectedIndex = index;
     });
   }
@@ -458,15 +469,18 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     // 💡Scaffold inside MyHomePage
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
+      extendBodyBehindAppBar: false,
+      // appBar: AppBar(
+      //   // TRY THIS: Try changing the color here to a specific color (to
+      //   // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+      //   // change color while the other colors stay the same.
+      //   // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      //   // automaticallyImplyLeading: false,
+      //   // Here we take the value from the MyHomePage object that was created by
+      //   // the App.build method, and use it to set our appbar title.
+      //   // title: Text(widget.title),
+      //   // title: const Text("Home"),
+      // ),
       // body: Center(
       //   // Center is a layout widget. It takes a single child and positions it
       //   // in the middle of the parent.
@@ -495,11 +509,342 @@ class _MyHomePageState extends State<MyHomePage> {
       //   ),
       // ),
       body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // so 4 items fit
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: "Alerts",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Settings",
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.deepPurple,
+        onTap: _onItemTapped,
+        // currentIndex: _currentIndex,
+        // onTap: (index) {
+        //   setState(() {
+        //     _logger.d("_currentIndex: $_currentIndex");
+        //     _currentIndex = index;
+        //   });
+        // },
+        // items: const [
+        //   BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+        //   BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
+        //   BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Alerts"),
+        //   BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+        // ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+// Initial sample code
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // return Center(child-
+    //
+    //
+    //
+    //
+    //
+    //: Text("Home Page", style: TextStyle(fontSize: 24)));
+    return Scaffold(
+      // extendBodyBehindAppBar: true,
+      backgroundColor: const Color(0xFFF6F7F8), // background-light
+      appBar: AppBar(
+        // automaticallyImplyLeading: true,
+        backgroundColor: const Color(0xFFF6F7F8).withValues(alpha: 0.8),
+        elevation: 0,
+        centerTitle: false,
+        title: const Text(
+          "Dashboard",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF212121),
+          ),
+        ),
+        // leading: const Icon(Icons.menu, color: Color(0xFF616161)),
+      ),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Cane Connection
+              const Text(
+                "Cane Connection",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF212121),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 5,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Connect to Cane",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF212121),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          const Text(
+                            "Tap to establish a Bluetooth connection with your smart cane.",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF757575),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(
+                                0xFF1193d4,
+                              ), // primary
+                              shape: const StadiumBorder(),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 16,
+                              ),
+                            ),
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.bluetooth,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                            label: const Text(
+                              "Connect",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 90,
+                      height: 90,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        image: const DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            "https://lh3.googleusercontent.com/aida-public/AB6AXuB0Qie9R9XcdEYFEMKNMuTtcg2BU7tRpC1ls6BqJ-6zUxx_9LvtZBkOZlElo5NYrS3K7bXI4AmFRWFcZNoYLSUaSGTJbQtvTEN1j1Uq2kBexlBH6Vrhyo_oA_QFjubxEcd_0UJdF1fbe4adWcOeX5d0HRhGsVcRb8gCUAfeBtGgdf8PMxRUaRk0hLyCEZJOF_E9LLWVQ9nxulnKoNASs8Z2fXiHQJlEHBOoL9O4FhNTGjlbYkKWWc2sSrEXitiOrd8Q5WBNRtV_LmA",
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Cane Status
+              const Text(
+                "Cane Status",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Column(
+                children: [
+                  statusTile("Battery", "85%", Colors.black87),
+                  statusTile("Bluetooth", "Connected", Colors.green),
+                  statusTile("Heart Rate", "72 bpm", Colors.black87),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // Alerts
+              const Text(
+                "Alerts",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFCDD2),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 5,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: const [
+                    Icon(Icons.warning, color: Colors.red),
+                    SizedBox(width: 8),
+                    Text(
+                      "Fall Detected",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 32),
+
+              // SOS Button
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(60),
+                    shadowColor: Colors.black.withValues(alpha: 0.2),
+                    elevation: 6,
+                  ),
+                  onPressed: () {},
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.sos, size: 50, color: Colors.white),
+                      SizedBox(height: 4),
+                      Text(
+                        "SOS",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Mic Button
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0x331193d4), // primary/20
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(20),
+                  ),
+                  onPressed: () {},
+                  child: const Icon(
+                    Icons.mic,
+                    size: 40,
+                    color: Color(0xFF1193d4),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // helper widget for status
+  Widget statusTile(String title, String value, Color valueColor) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title, style: const TextStyle(color: Color(0xFF757575))),
+          Text(
+            value,
+            style: TextStyle(fontWeight: FontWeight.w600, color: valueColor),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class HistoryPage extends StatelessWidget {
+  const HistoryPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text("History Page", style: TextStyle(fontSize: 24)));
+  }
+}
+
+class AlertsPage extends StatelessWidget {
+  const AlertsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text("Alerts Page", style: TextStyle(fontSize: 24)));
+  }
+}
+
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Settings Page Hello", style: TextStyle(fontSize: 24)),
     );
   }
 }

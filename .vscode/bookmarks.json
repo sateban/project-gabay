@@ -19,24 +19,34 @@
 					"label": ""
 				},
 				{
-					"line": 123,
+					"line": 124,
 					"column": 32,
 					"label": ""
 				},
 				{
-					"line": 200,
-					"column": 21,
+					"line": 202,
+					"column": 11,
 					"label": ""
 				},
 				{
-					"line": 380,
+					"line": 382,
 					"column": 36,
 					"label": ""
 				},
 				{
-					"line": 384,
+					"line": 386,
 					"column": 30,
 					"label": ""
+				},
+				{
+					"line": 476,
+					"column": 43,
+					"label": ""
+				},
+				{
+					"line": 565,
+					"column": 20,
+					"label": "Homepage"
 				}
 			]
 		}
