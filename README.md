@@ -1,7 +1,17 @@
-# Project GABAY (Geo-aware Assistive Blind Aid with Yaw-sensing)
+# Project GABAY (Geo-aware Assistive Blind Aid)
 
 Project GABAY is an IoT-based assistive technology designed for visually impaired individuals.  
 It combines navigation support with real-time health and safety monitoring, providing caregivers and family members with instant alerts and live updates through a companion mobile application.
+
+---
+
+## 🛠️ Tech Stack
+- **ESP32** for processing sensor data and communication  
+- **Ultrasonic Sensor** for obstacle detection  
+- **MPU6050** for fall detection (angle/acceleration sensing)  
+- **Pulse Sensor** for heart rate monitoring  
+- **GPS Module** for real-time location tracking  
+- **Dart & Flutter** for the cross-platform mobile application (user and caregiver app)  
 
 ---
 
