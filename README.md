@@ -45,6 +45,3 @@ It combines navigation support with real-time health and safety monitoring, prov
 ### 3. Health & Safety Alerts
 - ESP32 monitors thresholds for heart rate or fall detection.  
 - If triggered, GPS coordinates are fetched and alerts are sent via Bluetooth/Wi-Fi to the mobile app.  
-
-### 4. Manual SOS
-- A physical SOS button sends an immediate alert with location to the app.  
